@@ -1,6 +1,5 @@
 package com.pkmn.app.navigation
 
-import com.pkmn.app.ui.splash.SplashScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
