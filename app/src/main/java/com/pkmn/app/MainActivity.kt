@@ -7,10 +7,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.pkmn.app.navigation.AppNavGraph
+import com.pkmn.app.navigation.AppRoute
 import com.pkmn.app.ui.theme.PokemonAPITheme
 
 class MainActivity : ComponentActivity() {
@@ -19,11 +25,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PokemonAPITheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Surface (modifier = Modifier.fillMaxSize()) {
+                    MainCanvas()
                 }
             }
         }
@@ -31,17 +34,23 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun MainCanvas() {
+    val navController = rememberNavController()
+    val currentBackStack by navController.currentBackStackEntryAsState()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PokemonAPITheme {
-        Greeting("Android")
+    val currentRoute by remember(currentBackStack) {
+        derivedStateOf { currentBackStack?.destination?.route }
+    }
+
+    val canNavigateBack by remember(currentBackStack) {
+        derivedStateOf {
+            currentBackStack != null &&
+                    currentRoute != null &&
+                    currentRoute != AppRoute.HomeRoute.id
+        }
+    }
+
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        AppNavGraph(navController, modifier = Modifier.padding(innerPadding))
     }
 }
