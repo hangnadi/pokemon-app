@@ -21,7 +21,7 @@ fun SplashScreen(
 ) {
     LaunchedEffect(Unit) {
         delay(3000)
-        navController.navigate(AppRoute.HomeRoute.id) {
+        navController.navigate(AppRoute.MainRoute.id) {
             popUpTo(AppRoute.SplashRoute.id) { inclusive = true }
         }
     }
