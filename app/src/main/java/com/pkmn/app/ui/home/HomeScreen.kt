@@ -3,11 +3,16 @@ package com.pkmn.app.ui.home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -50,7 +55,7 @@ fun HomeScreen(
     }
 
     LaunchedEffect(shouldLoadMore.value) {
-        if (shouldLoadMore.value) {
+        if (shouldLoadMore.value && !isLoading) {
             viewModel.loadPokemons(20, pokemonList.size)
         }
     }
@@ -61,32 +66,46 @@ fun HomeScreen(
             .background(MaterialTheme.colorScheme.secondary),
         contentAlignment = Alignment.Center,
     ) {
-        when {
-            isLoading -> {
-                CircularProgressIndicator(
-                    modifier = modifier.align(Alignment.Center),
-                    color = ColorWhite
-                )
+        LazyColumn(
+            state = listState,
+            modifier = modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp)
+        ) {
+            items(
+                items = pokemonList,
+                key = { it.name }
+            ) { pokemon ->
+                PokemonListItem(pokemon.name) {
+                    /**
+                     * @TODO
+                     * do something on click
+                     */
+                }
             }
-            else -> {
-                LazyColumn(
-                    state = listState,
-                    modifier = modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp)
-                ) {
-                    items(
-                        items = pokemonList,
-                        key = { it.name }
-                    ) { pokemon ->
-                        PokemonListItem(pokemon.name) {
-                            /**
-                             * @TODO
-                             * do something on click
-                             */
-                        }
+            if (isLoading && pokemonList.isNotEmpty()) {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator(
+                            color = ColorWhite,
+                            strokeWidth = 2.dp,
+                            modifier = modifier.size(24.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Loading more", color = ColorWhite)
                     }
                 }
             }
+        }
+        if (isLoading && pokemonList.isEmpty()) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                color = ColorWhite
+            )
         }
     }
 }
