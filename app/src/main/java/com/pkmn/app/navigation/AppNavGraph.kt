@@ -6,8 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.pkmn.app.ui.main.MainScreen
+import com.pkmn.app.ui.home.HomeScreen
 import com.pkmn.app.ui.login.LoginScreen
+import com.pkmn.app.ui.profile.ProfileScreen
 import com.pkmn.app.ui.register.RegisterScreen
 import com.pkmn.app.ui.splash.SplashScreen
 
@@ -19,8 +20,12 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController,
-        startDestination = AppRoute.SplashRoute.id
+        startDestination = AppRoute.SplashRoute.id,
+        modifier = modifier
     ) {
+        composable(AppRoute.HomeRoute.id) { HomeScreen(navController) }
+        composable(AppRoute.ProfileRoute.id) { ProfileScreen(navController) }
+
         composable(AppRoute.SplashRoute.id) {
             SplashScreen(
                 onNavigateToAuth = {
@@ -30,15 +35,13 @@ fun AppNavGraph(
                         }
                     } },
                 onNavigateToMain = {
-                    navController.navigate(AppRoute.MainRoute.id) {
+                    navController.navigate(AppRoute.HomeRoute.id) {
                         popUpTo(AppRoute.SplashRoute.id) {
                             inclusive = true
                         }
                     } },
             )
         }
-
-        composable(AppRoute.MainRoute.id) { MainScreen(navController) }
 
         navigation(
             startDestination = AppRoute.LoginRoute.id,
