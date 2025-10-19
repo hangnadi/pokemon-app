@@ -6,25 +6,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.pkmn.app.navigation.AppRoute
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.pkmn.app.ui.theme.ColorWhite
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    navController: NavHostController,
+    onNavigateToAuth: () -> Unit,
+    onNavigateToMain: () -> Unit,
+    viewModel: SplashViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
+
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+
     LaunchedEffect(Unit) {
         delay(3000)
-        navController.navigate(AppRoute.MainRoute.id) {
-            popUpTo(AppRoute.SplashRoute.id) { inclusive = true }
-        }
+        if (isLoggedIn == true) onNavigateToMain()
+        else if (isLoggedIn == false) onNavigateToAuth()
     }
 
     Box(
@@ -48,5 +52,5 @@ fun SplashScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewSplashScreen() {
-    SplashScreen(rememberNavController())
+
 }
