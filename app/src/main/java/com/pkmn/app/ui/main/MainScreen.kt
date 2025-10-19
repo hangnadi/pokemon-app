@@ -1,15 +1,9 @@
 package com.pkmn.app.ui.main
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -114,7 +108,7 @@ fun getNavigationItems(): List<BottomNavItem> {
 
 @Preview(showSystemUi = true)
 @Composable
-fun PreviewBasicNavigationBar() {
+fun PreviewMainScreen() {
     MainScreen(rememberNavController())
 }
 
