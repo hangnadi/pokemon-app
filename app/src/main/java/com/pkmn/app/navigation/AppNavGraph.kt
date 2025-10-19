@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.pkmn.app.ui.detail.DetailScreen
 import com.pkmn.app.ui.home.HomeScreen
 import com.pkmn.app.ui.login.LoginScreen
 import com.pkmn.app.ui.profile.ProfileScreen
@@ -25,6 +26,10 @@ fun AppNavGraph(
     ) {
         composable(AppRoute.HomeRoute.id) { HomeScreen(navController) }
         composable(AppRoute.ProfileRoute.id) { ProfileScreen(navController) }
+        composable(AppRoute.DetailRoute.id) { backStackEntry ->
+            val name = backStackEntry.arguments?.getString("name")
+            DetailScreen(name, navController)
+        }
 
         composable(AppRoute.SplashRoute.id) {
             SplashScreen(
