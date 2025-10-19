@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -54,6 +55,14 @@ fun MainScreen(
                     stringResource(id = R.string.app_name)
                 ) },
                 actions = {
+                    IconButton(
+                        onClick = { /* @TODO LOGOUT Feature */ }
+                    ) {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = "Search"
+                        )
+                    }
                     IconButton(
                         onClick = { /* @TODO LOGOUT Feature */ }
                     ) {
