@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,7 +31,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.pkmn.app.navigation.AppRoute
 import com.pkmn.app.ui.theme.ColorWhite
+import kotlin.text.replace
 
 @Composable
 fun HomeScreen(
@@ -75,10 +76,11 @@ fun HomeScreen(
                 key = { it.name }
             ) { pokemon ->
                 PokemonListItem(pokemon.name) {
-                    /**
-                     * @TODO
-                     * do something on click
-                     */
+                    navController.navigate(
+                        AppRoute.DetailRoute.id.replace(
+                            "{name}", pokemon.name
+                        )
+                    )
                 }
             }
             if (isLoading && pokemonList.isNotEmpty()) {
