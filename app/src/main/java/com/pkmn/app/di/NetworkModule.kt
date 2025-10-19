@@ -2,7 +2,9 @@ package com.pkmn.app.di
 
 import com.pkmn.app.data.remote.api.PokemonApiService
 import com.pkmn.app.data.repository.PokemonRepositoryImpl
+import com.pkmn.app.data.repository.UserRepositoryImpl
 import com.pkmn.app.domain.repository.PokemonRepository
+import com.pkmn.app.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,4 +49,10 @@ object NetworkModule {
     @Singleton
     fun providePokemonRepository(api: PokemonApiService): PokemonRepository =
         PokemonRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(): UserRepository =
+        UserRepositoryImpl()
+
 }
