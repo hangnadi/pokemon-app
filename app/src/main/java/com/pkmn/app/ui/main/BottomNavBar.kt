@@ -1,14 +1,19 @@
 package com.pkmn.app.ui.main
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,7 +28,9 @@ fun BottomNavBar(
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.primary),
         containerColor = Color.Transparent,
         contentColor = ColorWhite,
         tonalElevation = 5.dp,
@@ -33,9 +40,10 @@ fun BottomNavBar(
             val selected = currentRoute == item.route
 
             NavigationBarItem(
-                modifier = modifier.padding(top = 20.dp),
+                modifier = modifier.padding(top = 8.dp),
                 icon = {
                     Icon(
+                        modifier = modifier.size(32.dp),
                         imageVector = if (selected) item.selectedIcon else item.icon,
                         contentDescription = item.title
                     )
@@ -43,7 +51,7 @@ fun BottomNavBar(
                 label = {
                     Text(
                         text = item.title,
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
                     )
                 },
