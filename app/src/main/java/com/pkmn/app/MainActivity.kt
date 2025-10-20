@@ -127,7 +127,10 @@ fun MainCanvas() {
                     title = { Text(getTitleAppBar(currentRoute)) },
                     navigationIcon = {
                         IconButton(
-                            onClick = { /* handle back */ }) {
+                            onClick = {
+                                navController.popBackStack()
+                            }
+                        ) {
                                 Icon(
                                     Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "Back"
