@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -66,6 +67,12 @@ fun MainCanvas() {
         }
     }
 
+    val isDetailPageType by remember(currentRoute) {
+        derivedStateOf {
+            isDetailPageType(currentRoute)
+        }
+    }
+
     val canNavigateBack by remember(currentBackStack) {
         derivedStateOf {
             currentBackStack != null &&
@@ -107,6 +114,26 @@ fun MainCanvas() {
                     }
                 )
             }
+            else if (isDetailPageType) {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    title = { Text(getTitleAppBar(currentRoute)) },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = { /* handle back */ }) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Back"
+                                )
+                            }
+                    }
+                )
+            }
         },
         bottomBar = {
             if (shouldShowBottomBar) {
@@ -129,9 +156,22 @@ fun MainCanvas() {
     }
 }
 
+fun getTitleAppBar(route: String?): String {
+    return when(route) {
+        AppRoute.DetailRoute.id -> "Detail Pokemon"
+        AppRoute.RegisterRoute.id -> "Register"
+        else -> "Pokedex"
+    }
+}
+
 fun isBottomNavRoute(route: String?): Boolean {
     return route == AppRoute.HomeRoute.id ||
             route == AppRoute.ProfileRoute.id
+}
+
+fun isDetailPageType(route: String?): Boolean {
+    return route == AppRoute.RegisterRoute.id ||
+            route == AppRoute.DetailRoute.id
 }
 
 fun getNavigationItems(): List<BottomNavItem> {
