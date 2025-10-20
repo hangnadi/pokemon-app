@@ -38,6 +38,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.pkmn.app.R
 import com.pkmn.app.ui.component.CustomEditTextRounded
 import com.pkmn.app.ui.component.CustomRoundedButton
@@ -48,8 +49,9 @@ import com.pkmn.app.ui.theme.Grey40
 
 @Composable
 fun RegisterScreen(
-    viewModel: RegisterViewModel = hiltViewModel(),
-    onRegisterSuccess: () -> Boolean
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
 
     val uiData by viewModel.uiData.collectAsState()
@@ -57,33 +59,33 @@ fun RegisterScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 10.dp),
         content = {
             when (uiState) {
                 is RegisterUiState.Idle -> {
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = modifier.height(12.dp))
 
                     EmailTextField(
                         emailValue = uiData.email,
                         onValueChange = { viewModel.onEmailChange(it) }
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = modifier.height(12.dp))
 
                     PasswordTextField(
                         passwordValue = uiData.password,
                         onValueChange = { viewModel.onPasswordChange(it) }
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = modifier.height(12.dp))
 
                     RePasswordTextField(
                         passwordValue = uiData.confirmPassword,
                         onValueChange = { viewModel.onConfirmPasswordChange(it) }
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = modifier.height(12.dp))
 
                     NameTextField(
                         nameValue = uiData.name,
@@ -105,7 +107,7 @@ fun RegisterScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = modifier.height(32.dp))
 
                     RegisterButton({
                         viewModel.registerUser()
@@ -113,7 +115,7 @@ fun RegisterScreen(
                 }
                 is RegisterUiState.Loading -> {
                     Box(
-                        modifier = Modifier
+                        modifier = modifier
                             .fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
@@ -121,7 +123,7 @@ fun RegisterScreen(
                     }
                 }
                 is RegisterUiState.Success -> {
-                    onRegisterSuccess
+                    navController.popBackStack()
                 }
             }
         }
