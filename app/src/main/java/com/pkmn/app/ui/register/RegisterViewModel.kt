@@ -3,8 +3,8 @@ package com.pkmn.app.ui.register
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pkmn.app.data.remote.database.UserEntity
 import com.pkmn.app.domain.repository.UserRepository
-import com.pkmn.app.ui.search.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -58,15 +58,18 @@ class RegisterViewModel @Inject constructor(
             return
         }
 
-        if (Patterns.EMAIL_ADDRESS.matcher(temp.email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(temp.email).matches()) {
             _uiData.update { it.copy(errorMessage = "Invalid Email") }
             return
         }
 
-        if (temp.password.length < 8 || temp.password.length > 32
-            || (temp.password.any { it.isDigit() } && temp.password.any { it.isUpperCase() })
-            ) {
-            _uiData.update { it.copy(errorMessage = "Invalid password") }
+        if (temp.password.length < 8 || temp.password.length > 32) {
+            _uiData.update { it.copy(errorMessage = "Password must be between 8 & 32 characters") }
+            return
+        }
+
+        if (!(temp.password.any { it.isDigit() } && temp.password.any { it.isUpperCase() })) {
+            _uiData.update { it.copy(errorMessage = "Password must has Digit and Uppercase") }
             return
         }
 
@@ -79,10 +82,19 @@ class RegisterViewModel @Inject constructor(
             uiState.value = RegisterUiState.Loading
 
             try {
-                val result = repository.userRegister(
-                    name = temp.name,
-                    email = temp.email,
-                    password = temp.password
+                val existingUser = repository.getUserByEmail(temp.email)
+                if (existingUser != null) {
+                    uiState.value = RegisterUiState.Idle
+                    _uiData.update { it.copy(errorMessage = "Email already registered") }
+                    return@launch
+                }
+
+                val result = repository.registerUser(
+                    UserEntity(
+                        name = temp.name,
+                        email = temp.email,
+                        password = temp.password
+                    )
                 )
 
                 if (result) {

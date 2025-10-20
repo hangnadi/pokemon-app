@@ -1,8 +1,13 @@
 package com.pkmn.app.data.repository
 
+import com.pkmn.app.data.remote.database.UserDao
+import com.pkmn.app.data.remote.database.UserEntity
 import com.pkmn.app.domain.repository.UserRepository
+import javax.inject.Inject
 
-class UserRepositoryImpl() : UserRepository {
+class UserRepositoryImpl @Inject constructor(
+    private val userDao: UserDao
+) : UserRepository {
     override suspend fun hasLoggedInUser(): Boolean {
         /**
          * @TODO
@@ -11,12 +16,13 @@ class UserRepositoryImpl() : UserRepository {
         return false
     }
 
-    override suspend fun userRegister(
-        name: String,
-        email: String,
-        password: String
-    ): Boolean {
-        return true
+    override suspend fun registerUser(userEntity: UserEntity): Boolean {
+        val result = userDao.insertUser(userEntity)
+        return result != -1L
+    }
+
+    override suspend fun getUserByEmail(email: String): UserEntity? {
+        return userDao.getUserByEmail(email)
     }
 
 

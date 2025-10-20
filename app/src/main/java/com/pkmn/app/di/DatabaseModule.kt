@@ -2,8 +2,9 @@ package com.pkmn.app.di
 
 import android.content.Context
 import androidx.room.Room
+import com.pkmn.app.data.remote.database.AppDatabase
 import com.pkmn.app.data.remote.database.PokemonDao
-import com.pkmn.app.data.remote.database.PokemonDatabase
+import com.pkmn.app.data.remote.database.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,13 +18,17 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): PokemonDatabase =
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(
             context,
-            PokemonDatabase::class.java,
+            AppDatabase::class.java,
             "pokemon_db"
         ).build()
 
     @Provides
-    fun providePokemonDao(db: PokemonDatabase): PokemonDao = db.pokemonDao()
+    fun providePokemonDao(db: AppDatabase): PokemonDao = db.pokemonDao()
+
+    @Provides
+    fun provideUserDao(db: AppDatabase): UserDao = db.userDao()
+
 }

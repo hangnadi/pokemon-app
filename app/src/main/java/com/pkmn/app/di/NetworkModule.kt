@@ -1,6 +1,7 @@
 package com.pkmn.app.di
 
 import com.pkmn.app.data.remote.api.PokemonApiService
+import com.pkmn.app.data.remote.database.UserDao
 import com.pkmn.app.data.repository.PokemonRepositoryImpl
 import com.pkmn.app.data.repository.UserRepositoryImpl
 import com.pkmn.app.domain.repository.PokemonRepository
@@ -52,7 +53,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(): UserRepository =
-        UserRepositoryImpl()
+    fun provideUserRepository(userDao: UserDao): UserRepository =
+        UserRepositoryImpl(userDao)
 
 }
