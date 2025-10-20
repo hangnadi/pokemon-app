@@ -40,7 +40,7 @@ fun AppNavGraph(
         composable(AppRoute.SplashRoute.id) {
             SplashScreen(
                 onNavigateToAuth = {
-                    navController.navigate("auth") {
+                    navController.navigate(AppRoute.LoginRoute.id) {
                         popUpTo(AppRoute.SplashRoute.id) {
                             inclusive = true
                         }

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Pokedex</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="dont_have_account">"Don’t have an account?"</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="enter_password">Enter your password</string>
 </resources>
