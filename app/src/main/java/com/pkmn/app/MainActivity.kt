@@ -96,7 +96,9 @@ fun MainCanvas() {
                     ) },
                     actions = {
                         IconButton(
-                            onClick = { /* @TODO LOGOUT Feature */ }
+                            onClick = {
+                                navController.navigate(AppRoute.SearchRoute.id)
+                            }
                         ) {
                             Icon(
                                 Icons.Default.Search,

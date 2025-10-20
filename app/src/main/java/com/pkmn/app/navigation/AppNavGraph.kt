@@ -13,6 +13,7 @@ import com.pkmn.app.ui.home.HomeScreen
 import com.pkmn.app.ui.login.LoginScreen
 import com.pkmn.app.ui.profile.ProfileScreen
 import com.pkmn.app.ui.register.RegisterScreen
+import com.pkmn.app.ui.search.SearchScreen
 import com.pkmn.app.ui.splash.SplashScreen
 
 
@@ -28,6 +29,7 @@ fun AppNavGraph(
     ) {
         composable(AppRoute.HomeRoute.id) { HomeScreen(navController) }
         composable(AppRoute.ProfileRoute.id) { ProfileScreen(navController) }
+        composable(AppRoute.SearchRoute.id) { SearchScreen(navController) }
         composable(
             route = AppRoute.DetailRoute.id,
             arguments = listOf(navArgument("pokemonName") { type = NavType.StringType })

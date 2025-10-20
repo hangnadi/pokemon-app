@@ -29,4 +29,7 @@ sealed class AppRoute(val id: String) {
     @Serializable
     object DetailRoute : AppRoute("detail_screen/{pokemonName}")
 
+    @Serializable
+    object SearchRoute : AppRoute("search_screen")
+
 }
