@@ -8,6 +8,16 @@ class UserRepositoryImpl() : UserRepository {
          * @TODO
          * Implement with room
          */
+        return false
+    }
+
+    override suspend fun userRegister(
+        name: String,
+        email: String,
+        password: String
+    ): Boolean {
         return true
     }
+
+
 }
