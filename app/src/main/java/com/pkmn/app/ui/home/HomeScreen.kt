@@ -78,7 +78,7 @@ fun HomeScreen(
                 PokemonListItem(pokemon.name) {
                     navController.navigate(
                         AppRoute.DetailRoute.id.replace(
-                            "{name}", pokemon.name
+                            "{pokemonName}", pokemon.name
                         )
                     )
                 }

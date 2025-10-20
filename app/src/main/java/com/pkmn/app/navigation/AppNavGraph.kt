@@ -3,8 +3,10 @@ package com.pkmn.app.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.pkmn.app.ui.detail.DetailScreen
 import com.pkmn.app.ui.home.HomeScreen
@@ -26,9 +28,11 @@ fun AppNavGraph(
     ) {
         composable(AppRoute.HomeRoute.id) { HomeScreen(navController) }
         composable(AppRoute.ProfileRoute.id) { ProfileScreen(navController) }
-        composable(AppRoute.DetailRoute.id) { backStackEntry ->
-            val name = backStackEntry.arguments?.getString("name")
-            DetailScreen(name, navController)
+        composable(
+            route = AppRoute.DetailRoute.id,
+            arguments = listOf(navArgument("pokemonName") { type = NavType.StringType })
+        ) {
+            DetailScreen()
         }
 
         composable(AppRoute.SplashRoute.id) {

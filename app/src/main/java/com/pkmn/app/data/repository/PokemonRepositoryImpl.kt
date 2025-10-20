@@ -28,10 +28,7 @@ class PokemonRepositoryImpl @Inject constructor(
         return Pokemon(
             name = response.name,
             abilities = response.abilities.map {
-                Ability(
-                    it.name,
-                    it.url
-                )
+                it.ability.name
             }
         )
     }
