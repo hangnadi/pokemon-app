@@ -1,6 +1,6 @@
 package com.pkmn.app.domain.repository
 
-import com.pkmn.app.data.remote.database.UserEntity
+import com.pkmn.app.data.database.UserEntity
 import com.pkmn.app.domain.model.UserProfile
 
 interface UserRepository {

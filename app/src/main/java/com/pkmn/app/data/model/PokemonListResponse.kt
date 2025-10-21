@@ -1,4 +1,4 @@
-package com.pkmn.app.data.remote.model
+package com.pkmn.app.data.model
 
 data class PokemonListResponse(
     val count: Int,

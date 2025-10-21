@@ -1,11 +1,10 @@
-package com.pkmn.app.data.repository
+package com.pkmn.app.domain.repository
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.pkmn.app.data.remote.database.UserDao
-import com.pkmn.app.data.remote.database.UserEntity
+import com.pkmn.app.data.database.UserDao
+import com.pkmn.app.data.database.UserEntity
 import com.pkmn.app.domain.model.UserProfile
-import com.pkmn.app.domain.repository.UserRepository
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(

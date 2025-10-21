@@ -1,4 +1,4 @@
-package com.pkmn.app.data.remote.database
+package com.pkmn.app.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

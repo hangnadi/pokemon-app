@@ -1,7 +1,7 @@
-package com.pkmn.app.data.remote.api
+package com.pkmn.app.data.api
 
-import com.pkmn.app.data.remote.model.PokemonDetailResponse
-import com.pkmn.app.data.remote.model.PokemonListResponse
+import com.pkmn.app.data.model.PokemonDetailResponse
+import com.pkmn.app.data.model.PokemonListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

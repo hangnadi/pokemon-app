@@ -1,9 +1,7 @@
-package com.pkmn.app.data.repository
+package com.pkmn.app.domain.repository
 
-import com.pkmn.app.data.remote.api.PokemonApiService
-import com.pkmn.app.data.remote.model.Ability
+import com.pkmn.app.data.api.PokemonApiService
 import com.pkmn.app.domain.model.Pokemon
-import com.pkmn.app.domain.repository.PokemonRepository
 import javax.inject.Inject
 
 class PokemonRepositoryImpl @Inject constructor(

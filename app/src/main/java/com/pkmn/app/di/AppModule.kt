@@ -2,10 +2,10 @@ package com.pkmn.app.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.pkmn.app.data.remote.api.PokemonApiService
-import com.pkmn.app.data.remote.database.UserDao
-import com.pkmn.app.data.repository.PokemonRepositoryImpl
-import com.pkmn.app.data.repository.UserRepositoryImpl
+import com.pkmn.app.data.api.PokemonApiService
+import com.pkmn.app.data.database.UserDao
+import com.pkmn.app.domain.repository.PokemonRepositoryImpl
+import com.pkmn.app.domain.repository.UserRepositoryImpl
 import com.pkmn.app.domain.repository.PokemonRepository
 import com.pkmn.app.domain.repository.UserRepository
 import dagger.Module

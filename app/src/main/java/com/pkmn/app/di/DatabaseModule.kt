@@ -2,9 +2,9 @@ package com.pkmn.app.di
 
 import android.content.Context
 import androidx.room.Room
-import com.pkmn.app.data.remote.database.AppDatabase
-import com.pkmn.app.data.remote.database.PokemonDao
-import com.pkmn.app.data.remote.database.UserDao
+import com.pkmn.app.data.database.AppDatabase
+import com.pkmn.app.data.database.PokemonDao
+import com.pkmn.app.data.database.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

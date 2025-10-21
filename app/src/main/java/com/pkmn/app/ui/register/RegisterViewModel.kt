@@ -3,7 +3,7 @@ package com.pkmn.app.ui.register
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pkmn.app.data.remote.database.UserEntity
+import com.pkmn.app.data.database.UserEntity
 import com.pkmn.app.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
