@@ -46,14 +46,5 @@ object NetworkModule {
     fun providePokemonApi(retrofit: Retrofit): PokemonApiService =
         retrofit.create(PokemonApiService::class.java)
 
-    @Provides
-    @Singleton
-    fun providePokemonRepository(api: PokemonApiService): PokemonRepository =
-        PokemonRepositoryImpl(api)
-
-    @Provides
-    @Singleton
-    fun provideUserRepository(userDao: UserDao): UserRepository =
-        UserRepositoryImpl(userDao)
 
 }
