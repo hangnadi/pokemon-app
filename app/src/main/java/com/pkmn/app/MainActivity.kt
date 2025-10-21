@@ -159,10 +159,15 @@ fun MainCanvas(
                     items = getNavigationItems(),
                     currentRoute = currentRoute,
                     onItemSelected = { route ->
-                        navController.navigate(route) {
-                            if (route != currentRoute) {
-                                popUpTo(navController.graph.startDestinationId)
-                                launchSingleTop = true
+                        if (route != currentRoute) {
+                            if (route == AppRoute.HomeRoute.id) {
+                                navController.navigate(route) {
+                                    popUpTo(route) {
+                                        inclusive = true
+                                    }
+                                }
+                            } else {
+                                navController.navigate(route)
                             }
                         }
                     }
