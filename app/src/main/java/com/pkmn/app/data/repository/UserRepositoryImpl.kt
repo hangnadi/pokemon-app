@@ -39,7 +39,12 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun loginUser(email: String, password: String): Boolean {
         val result = userDao.loginUser(email, password)
-        return result != null
+        if (result != null) {
+            setUserSession(result.email)
+            return true
+        } else {
+            return false
+        }
     }
 
     override suspend fun getUserByEmail(email: String): UserEntity? {
