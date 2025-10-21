@@ -15,12 +15,6 @@ sealed class AppRoute(val id: String) {
     object ProfileRoute : AppRoute("profile_screen")
 
     @Serializable
-    object MainRoute : AppRoute("main_screen")
-
-    @Serializable
-    object AuthRoute : AppRoute("auth_screen")
-
-    @Serializable
     object LoginRoute : AppRoute("login_screen")
 
     @Serializable

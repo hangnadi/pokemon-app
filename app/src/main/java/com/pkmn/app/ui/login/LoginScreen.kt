@@ -4,26 +4,28 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,7 +42,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.pkmn.app.R
+import com.pkmn.app.navigation.AppRoute
 import com.pkmn.app.ui.component.CustomEditTextRounded
 import com.pkmn.app.ui.component.CustomRoundedButton
 import com.pkmn.app.ui.theme.ColorBlack
@@ -51,51 +56,75 @@ import com.pkmn.app.ui.theme.Grey40
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit,
-    onRegister: () -> Unit
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+
+    val uiData by viewModel.uiData.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 10.dp)
-    ) {
-        Spacer(modifier = Modifier.height(96.dp))
+            .padding(horizontal = 10.dp),
+        content = {
+            when (uiState) {
+                LoginUiState.Idle -> {
+                    Spacer(modifier = Modifier.height(96.dp))
 
-        Text(
-            text = stringResource(R.string.login),
-            style = TextStyle(
-                color = ColorBlack,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-        )
+                    Text(
+                        text = stringResource(R.string.login),
+                        style = TextStyle(
+                            color = ColorBlack,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        )
+                    )
 
-        Spacer(modifier = Modifier.height(48.dp))
+                    Spacer(modifier = Modifier.height(48.dp))
 
-        EmailTextField(emailValue = email, onValueChange = { email = it })
+                    EmailTextField(emailValue = uiData.email, onValueChange = { viewModel.onEmailChange(it) })
 
-        Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
-        PasswordTextField(passwordValue = password, onValueChange = { password = it })
+                    PasswordTextField(passwordValue = uiData.password, onValueChange = { viewModel.onPasswordChange(it) })
 
-        Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
-        LoginButton({
-            /**
-             * Viewmodel todo
-             */
-        })
+                    LoginButton({
+                        viewModel.login()
+                    })
 
-        Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
-        SingUpTextField(onRegister)
+                    SingUpTextField(onClick = {
+                        navController.navigate(AppRoute.RegisterRoute.id)
+                    })
 
-    }
+                }
+                LoginUiState.Loading -> {
+                    Box(
+                        modifier = modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+                LoginUiState.Success -> {
+                    navController.navigate(AppRoute.HomeRoute.id) {
+                        popUpTo(AppRoute.LoginRoute.id) {
+                            inclusive = true
+                        }
+                    }
+                }
+            }
+        }
+    )
 }
 
 @Composable

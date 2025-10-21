@@ -54,18 +54,7 @@ fun AppNavGraph(
             )
         }
 
-        composable(AppRoute.LoginRoute.id) {
-            LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate(AppRoute.MainRoute.id) {
-                        popUpTo(AppRoute.AuthRoute.id) {
-                            inclusive = true
-                        }
-                    }
-                },
-                onRegister = { navController.navigate(AppRoute.RegisterRoute.id) }
-            )
-        }
+        composable(AppRoute.LoginRoute.id) { LoginScreen(navController) }
 
         composable(AppRoute.RegisterRoute.id) { RegisterScreen(navController) }
     }
