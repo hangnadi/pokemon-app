@@ -3,11 +3,13 @@ package com.pkmn.app.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.pkmn.app.data.api.PokemonApiService
+import com.pkmn.app.data.database.PokemonDao
 import com.pkmn.app.data.database.UserDao
 import com.pkmn.app.domain.repository.PokemonRepositoryImpl
 import com.pkmn.app.domain.repository.UserRepositoryImpl
 import com.pkmn.app.domain.repository.PokemonRepository
 import com.pkmn.app.domain.repository.UserRepository
+import com.pkmn.app.utils.NetworkHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,12 +31,24 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePokemonRepository(api: PokemonApiService): PokemonRepository =
-        PokemonRepositoryImpl(api)
+    fun provideNetworkHelper(
+        @ApplicationContext context: Context
+    ): NetworkHelper = NetworkHelper(context)
 
     @Provides
     @Singleton
-    fun provideUserRepository(userDao: UserDao, sp: SharedPreferences): UserRepository =
-        UserRepositoryImpl(userDao, sp)
+    fun providePokemonRepository(
+        api: PokemonApiService,
+        dao: PokemonDao,
+        nh: NetworkHelper
+    ): PokemonRepository =
+        PokemonRepositoryImpl(api, dao, nh)
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        userDao: UserDao,
+        sp: SharedPreferences
+    ): UserRepository = UserRepositoryImpl(userDao, sp)
 
 }
