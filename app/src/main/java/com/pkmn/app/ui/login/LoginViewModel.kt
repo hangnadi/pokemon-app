@@ -31,15 +31,17 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onEmailChange(value: String) {
-        _uiData.update {
-            it.copy(email = value)
-        }
+        _uiData.update { it.copy(email = value) }
+        clearError()
     }
 
     fun onPasswordChange(value: String) {
-        _uiData.update {
-            it.copy(password = value)
-        }
+        _uiData.update { it.copy(password = value) }
+        clearError()
+    }
+
+    fun clearError() {
+        _uiData.update { it.copy(errorMessage = "") }
     }
 
     fun login() {

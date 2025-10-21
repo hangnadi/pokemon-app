@@ -48,6 +48,7 @@ import com.pkmn.app.R
 import com.pkmn.app.navigation.AppRoute
 import com.pkmn.app.ui.component.CustomEditTextRounded
 import com.pkmn.app.ui.component.CustomRoundedButton
+import com.pkmn.app.ui.theme.Alert_Error
 import com.pkmn.app.ui.theme.ColorBlack
 import com.pkmn.app.ui.theme.ColorWhite
 import com.pkmn.app.ui.theme.Gray95
@@ -90,6 +91,21 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     PasswordTextField(passwordValue = uiData.password, onValueChange = { viewModel.onPasswordChange(it) })
+
+                    uiData.errorMessage.let {
+                        if (it.isNotEmpty()) {
+                            Spacer(modifier = Modifier.height(32.dp))
+
+                            Text(
+                                text = it,
+                                style = TextStyle(
+                                    color = Alert_Error,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            )
+                        }
+                    }
 
                     Spacer(modifier = Modifier.height(32.dp))
 
