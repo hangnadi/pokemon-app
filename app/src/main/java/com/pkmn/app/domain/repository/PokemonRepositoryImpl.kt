@@ -2,12 +2,14 @@ package com.pkmn.app.domain.repository
 
 import com.pkmn.app.data.api.PokemonApiService
 import com.pkmn.app.data.database.PokemonDao
+import com.pkmn.app.data.database.PokemonEntity
 import com.pkmn.app.domain.model.Pokemon
 import com.pkmn.app.utils.NetworkHelper
 import com.pkmn.app.utils.toDomain
 import com.pkmn.app.utils.toEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.net.URI
 import javax.inject.Inject
 
 class PokemonRepositoryImpl @Inject constructor(
@@ -27,7 +29,15 @@ class PokemonRepositoryImpl @Inject constructor(
             }
             emit(pokemons)
 
-            val entities = pokemons.map { it.toEntity() }
+            val entities = remoteResponse.results.map {
+                PokemonEntity(
+                    id = it.url.trimEnd('/')
+                        .split("/")
+                        .lastOrNull()
+                        ?.toIntOrNull()!!,
+                    name = it.name
+                )
+            }
             dao.insertAll(entities)
         } else {
             val localData = dao.getPokemons(limit, offset)
