@@ -1,6 +1,7 @@
 package com.pkmn.app.domain.repository
 
 import com.pkmn.app.data.remote.database.UserEntity
+import com.pkmn.app.domain.model.UserProfile
 
 interface UserRepository {
     suspend fun setUserSession(session: String)
@@ -9,6 +10,6 @@ interface UserRepository {
     suspend fun hasUserSession(): Boolean
     suspend fun registerUser(userEntity: UserEntity): Boolean
     suspend fun loginUser(email: String, password:String): Boolean
-    suspend fun getUserByEmail(email: String): UserEntity?
+    suspend fun getUserByEmail(email: String): UserProfile?
 
 }

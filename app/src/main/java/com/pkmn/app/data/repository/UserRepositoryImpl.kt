@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.pkmn.app.data.remote.database.UserDao
 import com.pkmn.app.data.remote.database.UserEntity
+import com.pkmn.app.domain.model.UserProfile
 import com.pkmn.app.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -47,8 +48,16 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserByEmail(email: String): UserEntity? {
-        return userDao.getUserByEmail(email)
+    override suspend fun getUserByEmail(email: String): UserProfile? {
+        val result = userDao.getUserByEmail(email)
+        return if (result != null) {
+            UserProfile(
+                result.name,
+                result.email
+            )
+        } else {
+            null
+        }
     }
 
 }
