@@ -28,7 +28,7 @@ fun AppNavGraph(
         modifier = modifier
     ) {
         composable(AppRoute.HomeRoute.id) { HomeScreen(navController) }
-        composable(AppRoute.ProfileRoute.id) { ProfileScreen(navController) }
+        composable(AppRoute.ProfileRoute.id) { ProfileScreen() }
         composable(AppRoute.SearchRoute.id) { SearchScreen(navController) }
         composable(
             route = AppRoute.DetailRoute.id,
