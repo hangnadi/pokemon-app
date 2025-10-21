@@ -36,18 +36,26 @@ class RegisterViewModel @Inject constructor(
 
     fun onNameChange(value: String) {
         _uiData.update { it.copy(name = value) }
+        clearError()
     }
 
     fun onEmailChange(value: String) {
         _uiData.update { it.copy(email = value) }
+        clearError()
     }
 
     fun onPasswordChange(value: String) {
         _uiData.update { it.copy(password = value) }
+        clearError()
     }
 
     fun onConfirmPasswordChange(value: String) {
         _uiData.update { it.copy(confirmPassword = value) }
+        clearError()
+    }
+
+    fun clearError() {
+        _uiData.update { it.copy(errorMessage = "") }
     }
 
     fun registerUser() {
