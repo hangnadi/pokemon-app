@@ -7,6 +7,9 @@ import com.pkmn.app.domain.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,16 +28,15 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadPokemons(limit: Int = 20, offset: Int = 0) {
+        if (isLoading.value) {
+            return
+        }
         viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                val pokemons = repository.getPokemonList(limit, offset)
-                _pokemonList.value += pokemons
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                _isLoading.value = false
-            }
+            repository.getPokemonList(limit, offset)
+                .onStart { _isLoading.value = true }
+                .onCompletion { _isLoading.value = false }
+                .catch { e -> e.printStackTrace() }
+                .collect { it -> _pokemonList.value += it }
         }
     }
 }

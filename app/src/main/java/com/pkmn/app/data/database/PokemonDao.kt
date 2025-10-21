@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PokemonDao {
 
-    @Query("SELECT * FROM pokemon_table")
-    fun getAllPokemons(): Flow<List<PokemonEntity>>
+    @Query("SELECT * FROM pokemon_table ORDER BY id LIMIT :limit OFFSET :offset")
+    suspend fun getPokemons(limit: Int, offset: Int): List<PokemonEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(pokemons: List<PokemonEntity>)
 
-    @Query("SELECT * FROM pokemon_table WHERE name = :name LIMIT 1")
-    suspend fun getPokemonByName(name: String): PokemonEntity?
+    @Query("DELETE FROM pokemon_table")
+    suspend fun clearPokemons()
 }
