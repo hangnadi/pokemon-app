@@ -1,5 +1,8 @@
 package com.pkmn.app
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,11 +25,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pkmn.app.navigation.AppNavGraph
@@ -44,7 +50,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PokemonAPITheme {
                 Surface (modifier = Modifier.fillMaxSize()) {
-                    MainCanvas()
+                    MainCanvas(this)
                 }
             }
         }
@@ -53,9 +59,22 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainCanvas() {
+fun MainCanvas(
+    context: Context,
+    viewModel: MainViewModel = hiltViewModel()
+) {
+
     val navController = rememberNavController()
     val currentBackStack by navController.currentBackStackEntryAsState()
+    val logoutSuccess by viewModel.logoutState.collectAsState()
+
+    LaunchedEffect(logoutSuccess) {
+        if (logoutSuccess) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+            (context as Activity).finish()
+        }
+    }
 
     val currentRoute by remember(currentBackStack) {
         derivedStateOf { currentBackStack?.destination?.route }
@@ -96,9 +115,7 @@ fun MainCanvas() {
                     ) },
                     actions = {
                         IconButton(
-                            onClick = {
-                                navController.navigate(AppRoute.SearchRoute.id)
-                            }
+                            onClick = { navController.navigate(AppRoute.SearchRoute.id) }
                         ) {
                             Icon(
                                 Icons.Default.Search,
@@ -106,7 +123,7 @@ fun MainCanvas() {
                             )
                         }
                         IconButton(
-                            onClick = { /* @TODO LOGOUT Feature */ }
+                            onClick = { viewModel.logOut() }
                         ) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ExitToApp,
@@ -126,16 +143,12 @@ fun MainCanvas() {
                     ),
                     title = { Text(getTitleAppBar(currentRoute)) },
                     navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                navController.popBackStack()
-                            }
-                        ) {
-                                Icon(
-                                    Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back"
-                                )
-                            }
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back"
+                            )
+                        }
                     }
                 )
             }
