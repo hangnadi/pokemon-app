@@ -19,7 +19,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _isLoggedIn.value = userRepository.hasLoggedInUser()
+            _isLoggedIn.value = userRepository.hasUserSession()
         }
     }
 }
